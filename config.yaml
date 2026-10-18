@@ -1,0 +1,77 @@
+# =============================================================================
+# LLM Router – Default Configuration
+# =============================================================================
+# All values here match the Pydantic defaults in src/router/config.py.
+# Override any section by editing this file.
+
+# --- Local model (Ollama) ---------------------------------------------------
+local:
+  primary: "qwen2.5:1.5b-instruct"
+  fallback: "qwen2.5:3b-instruct"
+  ollama_url: "http://localhost:11434"
+  timeout_seconds: 120.0
+
+# --- Frontier model (Gemini) ------------------------------------------------
+frontier:
+  provider: "gemini"
+  primary: "gemini-3.1-pro-preview"      # strongest Pro on free tier
+  fallback: "gemini-3.8-flash"           # fallback if quota/not-found
+  api_key_env: "GEMINI_API_KEY"
+
+# --- Pricing (USD per 1M tokens) --------------------------------------------
+pricing:
+  models:
+    gemini-3.1-pro-preview:
+      input_per_1m: 1.25
+      output_per_1m: 10.0
+      thinking_per_1m: 3.75
+    gemini-3.8-flash:
+      input_per_1m: 0.10
+      output_per_1m: 0.40
+      thinking_per_1m: 0.25
+
+# --- Rate limiting -----------------------------------------------------------
+rate_limit:
+  requests_per_minute: 10
+  daily_request_cap: 500
+  retry_max_attempts: 5
+  retry_base_delay: 1.0
+  retry_max_delay: 60.0
+
+# --- Router parameters ------------------------------------------------------
+router:
+  escalation_threshold: 0.6   # escalate if combined signal > this
+  cost_lambda: 0.5            # quality-cost tradeoff
+  confidence_samples: 3
+  confidence_temperature: 0.7
+
+# --- Rule-based signal parameters --------------------------------------------
+rule_based:
+  max_token_length: 200
+  code_fence_escalate: true
+  keywords:
+    - "prove"
+    - "derive"
+    - "step by step"
+  max_sub_questions: 2
+
+# --- Evaluation harness ------------------------------------------------------
+eval:
+  tasks_per_category: 30
+  dev_ratio: 0.3
+  seed: 42
+  categories:
+    - "gsm8k"
+    - "arc_challenge"
+    - "mbpp"
+    - "multi_part"
+
+# --- File paths --------------------------------------------------------------
+paths:
+  data_dir: "data"
+  results_dir: "results"
+  cache_dir: ".cache"
+  models_dir: "models"
+
+# --- Global seed -------------------------------------------------------------
+seed: 42
