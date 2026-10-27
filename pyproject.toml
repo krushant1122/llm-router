@@ -27,6 +27,13 @@ dev = [
     "pytest-asyncio>=0.24",
     "ruff>=0.6",
 ]
+edge = [
+    "torch==2.14.1",
+    "transformers==5.20.2",
+    "sentence-transformers==6.2.0",
+    "onnx==1.23.2",
+    "onnxruntime==1.31.0",
+]
 
 [project.scripts]
 router = "router.cli.main:app"

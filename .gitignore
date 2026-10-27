@@ -19,6 +19,8 @@ build/
 results/
 models/
 data/
+artifacts/
+*.pt
 
 # OS artifacts
 .DS_Store

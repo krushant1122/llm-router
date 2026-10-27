@@ -109,6 +109,20 @@ class PathsConfig(BaseModel):
     models_dir: Path = Path("models")
 
 
+class EdgeConfig(BaseModel):
+    """Configuration for the edge router model (ONNX + quantized)."""
+
+    model_id: str = "sentence-transformers/all-MiniLM-L6-v2"
+    fallback_model_id: str = "BAAI/bge-small-en-v1.5"
+    head_hidden_dim: int = 64
+    onnx_opset: int = 17
+    artifacts_dir: Path = Path("artifacts/edge")
+    training_data_path: Path = Path("data/edge_train_tasks.jsonl")
+    signal_weight: float = 0.0  # 0.0 means off by default (preserves baseline behavior)
+    intra_op_num_threads: int = 0  # 0 = auto
+    pi_profile_threads: int = 4
+
+
 # ---------------------------------------------------------------------------
 # Top-level config
 # ---------------------------------------------------------------------------
@@ -125,6 +139,7 @@ class AppConfig(BaseModel):
     rule_based: RuleBasedConfig = RuleBasedConfig()
     eval: EvalConfig = EvalConfig()
     paths: PathsConfig = PathsConfig()
+    edge: EdgeConfig = EdgeConfig()
     seed: int = 42
 
 

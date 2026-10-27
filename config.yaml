@@ -73,5 +73,17 @@ paths:
   cache_dir: ".cache"
   models_dir: "models"
 
+# --- Edge router model -------------------------------------------------------
+edge:
+  model_id: "sentence-transformers/all-MiniLM-L6-v2"
+  fallback_model_id: "BAAI/bge-small-en-v1.5"
+  head_hidden_dim: 64
+  onnx_opset: 17
+  artifacts_dir: "artifacts/edge"
+  training_data_path: "data/edge_train_tasks.jsonl"
+  signal_weight: 0.0     # 0.0 = disabled by default to preserve baselines
+  intra_op_num_threads: 0
+  pi_profile_threads: 4
+
 # --- Global seed -------------------------------------------------------------
 seed: 42
